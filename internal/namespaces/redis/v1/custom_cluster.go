@@ -144,3 +144,27 @@ func clusterWaitCommand() *core.Command {
 		},
 	}
 }
+
+//func clusterMetricsMarshalerFunc(i interface{}, opt *human.MarshalOpt) (string, error) {
+//	type tmp redis.ClusterMetricsResponse
+//	metrics := tmp(i.(redis.ClusterMetricsResponse))
+//
+//	opt.Sections = []*human.MarshalSection{
+//		{
+//			FieldName: ""
+//		},
+//	}
+//
+//}
+
+func clusterMetricsBuilder(c *core.Command) *core.Command {
+	c.AddInterceptors(func(ctx context.Context, argsI interface{}, runner core.CommandRunner) (interface{}, error) {
+		originalResp, err := runner(ctx, argsI)
+		if err != nil {
+			return nil, err
+		}
+		metrics := originalResp.(*redis.ClusterMetricsResponse)
+		return metrics.Timeseries, nil
+	})
+	return c
+}
