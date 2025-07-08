@@ -54,6 +54,51 @@ func listOfferMarshalerFunc(i interface{}, opt *human.MarshalOpt) (string, error
 }
 
 func serverOfferListBuilder(c *core.Command) *core.Command {
+	c.View = &core.View{
+		Fields: []*core.ViewField{
+			{
+				FieldName: "ID",
+				Label:     "ID",
+			},
+			{
+				FieldName: "Name",
+				Label:     "Name",
+			},
+			{
+				FieldName: "Stock",
+				Label:     "Stock",
+			},
+			{
+				FieldName: "Bandwidth",
+				Label:     "Bandwidth",
+			},
+			{
+				FieldName: "CPUs",
+				Label:     "CPUs",
+			},
+			{
+				FieldName: "Memories",
+				Label:     "Memories",
+			},
+			{
+				FieldName: "Disks",
+				Label:     "Disks",
+			},
+			{
+				FieldName: "Memories",
+				Label:     "Memories",
+			},
+			{
+				FieldName: "PricePerHour",
+				Label:     "PricePerHour",
+			},
+			{
+				FieldName: "PricePerMonth",
+				Label:     "PricePerMonth",
+			},
+		},
+	}
+
 	c.Interceptor = func(ctx context.Context, argsI interface{}, runner core.CommandRunner) (i interface{}, err error) {
 		req := argsI.(*baremetal.ListOffersRequest)
 		baremetalAPI := baremetal.NewAPI(core.ExtractClient(ctx))
@@ -62,7 +107,6 @@ func serverOfferListBuilder(c *core.Command) *core.Command {
 		if err != nil {
 			return nil, err
 		}
-
 		return offers.Offers, nil
 	}
 
