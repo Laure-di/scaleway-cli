@@ -52,6 +52,7 @@ func GetCommands() *core.Commands {
 
 	cmds.MustFind("block", "snapshot", "create").Override(blockSnapshotCreateBuilder)
 	cmds.MustFind("block", "volume", "create").Override(blockVolumeCreateBuilder)
+	cmds.MustFind("block", "volume-type", "list").Override(blockVolumeTypeListBuilder)
 
 	human.RegisterMarshalerFunc(
 		block.VolumeStatus(""),
